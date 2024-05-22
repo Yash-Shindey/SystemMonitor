@@ -221,6 +221,12 @@ class SystemMonitor(QMainWindow):
 
         self.stop_btn = QPushButton('Stop Recording', self)
         self.stop_btn.clicked.connect(self.stop_recording)
+        
+        self.pause_btn = QPushButton('Pause Recording', self)
+        self.pause_btn.clicked.connect(self.pause_recording)
+        
+        self.resume_btn = QPushButton('Resume Recording', self)
+        self.resume_btn.clicked.connect(self.resume_recording)
 
         self.train_rl_btn = QPushButton('Train RL Model', self)
         self.train_rl_btn.clicked.connect(self.train_rl_model)
@@ -237,6 +243,8 @@ class SystemMonitor(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.start_btn)
         layout.addWidget(self.stop_btn)
+        layout.addWidget(self.pause_btn)
+        layout.addWidget(self.resume_btn)
         layout.addWidget(self.train_rl_btn)
         layout.addWidget(self.train_lstm_btn)
         layout.addWidget(self.predict_lstm_btn)
@@ -263,6 +271,14 @@ class SystemMonitor(QMainWindow):
     def stop_recording(self):
         self.timer.stop()
         self.recording = False
+
+    def pause_recording(self):
+        if self.recording:
+            self.timer.stop()
+
+    def resume_recording(self):
+        if self.recording:
+            self.timer.start(1000)
 
     def update_data(self):
         data = collect_data()
